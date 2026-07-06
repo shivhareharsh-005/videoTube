@@ -42,21 +42,20 @@ const userSchema = new Schema({
         required : [true, 'password is required']
     },
     refreshToken : {
-        Type : String
+        type : String
     }
 },
 {
-    timeStamps : true
+    timestamps : true
 })
 
-
 // password incription middileware
-userSchema.pre("save", async function (next){                    
+userSchema.pre("save", async function (){                    
 
-    if(!this.isModified("password")) return next();              // when password change by user so use password
-                                                                 //  hash but any other changes so password hashing not again
+    if(!this.isModified("password")) return;              // when password change by user so use password
+                                                              //  hash but any other changes so password hashing not again
     this.password = await bcrypt.hash(this.password, 10)
-    next()
+    
 }) 
 
 // password matching method 
